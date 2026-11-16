@@ -33,7 +33,9 @@ public interface PowerGridRulesGameInterface {
     Variant<SerializedGameState, RequestError> buyResources(int playerId, String resources);
 
     /**
+     * @param playerId  the player buying houses
      * @param townNames towns in which houses should be built; may be empty
+     * @return the new game state, or an error if the houses cannot be built
      */
     Variant<SerializedGameState, RequestError> buyHouses(int playerId, List<String> townNames);
 

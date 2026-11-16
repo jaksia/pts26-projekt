@@ -19,6 +19,8 @@ public interface PlayerBoardFacade {
     boolean hasEnoughMoney(int amount);
 
     /**
+     * @param ppn   the number of the power plant to receive
+     * @param price the price paid for the power plant
      * @return {@code false} if the player is above the power plant limit
      */
     boolean receivePowerPlant(PowerPlantNumber ppn, int price);

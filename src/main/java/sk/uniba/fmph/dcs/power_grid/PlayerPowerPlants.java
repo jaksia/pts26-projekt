@@ -11,6 +11,7 @@ public interface PlayerPowerPlants {
     PowerPlantNumber bestPowerPlant(); /* Should be called largest(?) */
 
     /**
+     * @param pp the power plant to receive
      * @return {@code false} if the player is above the power plant limit
      */
     boolean receivePowerPlant(PowerPlant pp);

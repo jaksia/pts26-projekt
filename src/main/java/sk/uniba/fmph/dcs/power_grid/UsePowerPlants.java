@@ -7,6 +7,6 @@ import java.util.List;
  */
 public interface UsePowerPlants {
 
-    Variant<RequestError, Integer> numberOfSuppliableTowns(
+    Variant<Integer, RequestError> numberOfSuppliableTowns(
             List<Resource> resources, List<PowerPlant> powerPlants);
 }

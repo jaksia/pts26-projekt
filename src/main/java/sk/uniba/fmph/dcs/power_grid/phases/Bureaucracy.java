@@ -1,4 +1,11 @@
-package sk.uniba.fmph.dcs.power_grid;
+package sk.uniba.fmph.dcs.power_grid.phases;
+
+
+import sk.uniba.fmph.dcs.power_grid.PlayerColor;
+import sk.uniba.fmph.dcs.power_grid.PowerPlantNumber;
+import sk.uniba.fmph.dcs.power_grid.RequestError;
+import sk.uniba.fmph.dcs.power_grid.Resource;
+import sk.uniba.fmph.dcs.power_grid.Variant;
 
 import java.util.List;
 

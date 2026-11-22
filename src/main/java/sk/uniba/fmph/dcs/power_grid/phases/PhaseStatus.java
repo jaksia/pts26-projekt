@@ -1,4 +1,4 @@
-package sk.uniba.fmph.dcs.power_grid;
+package sk.uniba.fmph.dcs.power_grid.phases;
 
 public enum PhaseStatus {
     PHASE_CONTINUES,

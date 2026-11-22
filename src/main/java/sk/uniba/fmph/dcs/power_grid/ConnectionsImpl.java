@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Connections between towns backed by an all-pairs shortest-path matrix.
+ * Connections between cities backed by an all-pairs shortest-path matrix.
  *
  * <p>The graph is fixed at construction time, so Floyd-Warshall is run once and
  * every later cost query is a scan of a precomputed row.
@@ -15,13 +15,13 @@ import java.util.Set;
 public final class ConnectionsImpl implements Connections {
 
     /**
-     * An undirected connection between two towns and its building cost.
+     * An undirected connection between two cities and its building cost.
      *
-     * @param a first town
-     * @param b second town
+     * @param cityA first city
+     * @param cityB second city
      * @param cost building cost of the connection
      */
-    public record Edge(String a, String b, int cost) {
+    public record Edge(String cityA, String cityB, int cost) {
     }
 
     private static final int INF = Integer.MAX_VALUE / 4;
@@ -30,7 +30,7 @@ public final class ConnectionsImpl implements Connections {
     private final int[][] dist;
 
     /**
-     * Builds the graph and precomputes shortest paths between all pairs of towns.
+     * Builds the graph and precomputes shortest paths between all pairs of cities.
      *
      * @param distances undirected connections; repeated pairs keep the cheapest cost
      */

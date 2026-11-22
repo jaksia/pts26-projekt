@@ -36,11 +36,11 @@ public final class ConnectionsImpl implements Connections {
      */
     public ConnectionsImpl(final List<Edge> distances) {
         for (Edge edge : distances) {
-            if (!index.containsKey(edge.a())) {
-                index.put(edge.a(), index.size());
+            if (!index.containsKey(edge.cityA())) {
+                index.put(edge.cityA(), index.size());
             }
-            if (!index.containsKey(edge.b())) {
-                index.put(edge.b(), index.size());
+            if (!index.containsKey(edge.cityB())) {
+                index.put(edge.cityB(), index.size());
             }
         }
 
@@ -55,8 +55,8 @@ public final class ConnectionsImpl implements Connections {
             if (edge.cost() < 0) {
                 throw new IllegalArgumentException("Negative connection cost: " + edge.cost());
             }
-            int u = index.get(edge.a());
-            int v = index.get(edge.b());
+            int u = index.get(edge.cityA());
+            int v = index.get(edge.cityB());
             dist[u][v] = Math.min(dist[u][v], edge.cost());
             dist[v][u] = Math.min(dist[v][u], edge.cost());
         }

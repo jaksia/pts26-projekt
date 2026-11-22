@@ -14,7 +14,13 @@ import java.util.Set;
  */
 public final class ConnectionsImpl implements Connections {
 
-    /** An undirected connection between two towns and its building cost. */
+    /**
+     * An undirected connection between two towns and its building cost.
+     *
+     * @param a first town
+     * @param b second town
+     * @param cost building cost of the connection
+     */
     public record Edge(String a, String b, int cost) {
     }
 

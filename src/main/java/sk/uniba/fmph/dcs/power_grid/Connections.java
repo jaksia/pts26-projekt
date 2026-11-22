@@ -16,6 +16,10 @@ public interface Connections {
      * find a cheaper total, even though a different order could be less expensive.
      * Failure to recognize the cities are being connected in suboptimal order is
      * considered the player's skill issue.
+     *
+     * @param from cities already part of the connected network
+     * @param to cities to connect, in the order they should be processed
+     * @return total cost of connecting all cities in {@code to}
      */
     int calculateConnectingCost(List<String> from, List<String> to);
 }

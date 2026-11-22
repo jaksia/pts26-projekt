@@ -108,16 +108,21 @@ public class BuildingHouses {
     }
 
     private static int thresholdFor(final int playerCount) {
-        return switch (playerCount) {
-            case 2 -> 18;
-            case 3, 4 -> 17;
-            case 5 -> 15;
-            case 6 -> 14;
-            default -> throw new IllegalArgumentException("Unsupported number of players: " + playerCount);
-        };
+        if (playerCount < 2 || playerCount > 6)
+            throw new IllegalArgumentException("Invalid player count: " + playerCount);
+
+        if (playerCount == 6) return 14;
+        if (playerCount == 5) return 15;
+        if (playerCount == 3 || playerCount == 4) return 17;
+        return 18;
     }
 
     private static Variant<PhaseStatus, RequestError> error(final String description) {
         return Variant.failure(new RequestError("Cannot build houses: " + description));
+    }
+
+    public String getState() {
+        // TODO: implement
+        return "";
     }
 }

@@ -18,7 +18,7 @@ import java.util.Optional;
 /**
  * Phase in which players buy resources from the resource market.
  */
-public class BuyingResources {
+public final class BuyingResources {
     private final Map<PlayerColor, PlayerBoardFacade> boards;
     private final ResourceMarket market;
 
@@ -26,7 +26,7 @@ public class BuyingResources {
     private int currentIndex;
     private boolean active;
 
-    public BuyingResources(Map<PlayerColor, PlayerBoardFacade> boards, ResourceMarket market) {
+    public BuyingResources(final Map<PlayerColor, PlayerBoardFacade> boards, final ResourceMarket market) {
         Objects.requireNonNull(boards, "boards must not be null");
         Objects.requireNonNull(market, "market must not be null");
 
@@ -37,10 +37,11 @@ public class BuyingResources {
         this.market = market;
     }
 
-    public void startPhase(List<PlayerColor> playerOrder) {
+    public void startPhase(final List<PlayerColor> playerOrder) {
         Objects.requireNonNull(playerOrder, "playerOrder must not be null");
-        if (playerOrder.stream().anyMatch(Objects::isNull))
+        if (playerOrder.stream().anyMatch(Objects::isNull)) {
             throw new IllegalArgumentException("playerOrder must not contain null values");
+        }
 
         List<PlayerColor> reversed = new ArrayList<>(playerOrder);
         Collections.reverse(reversed);
@@ -49,16 +50,20 @@ public class BuyingResources {
         this.active = !this.turnOrder.isEmpty();
     }
 
-    public Variant<PhaseStatus, RequestError> buyResources(PlayerColor player, List<Resource> removedResources) {
+    public Variant<PhaseStatus, RequestError> buyResources(final PlayerColor player, final List<Resource> removedResources) {
         Objects.requireNonNull(player, "player must not be null");
         Objects.requireNonNull(removedResources, "removedResources must not be null");
-        if (removedResources.stream().anyMatch(Objects::isNull))
+        if (removedResources.stream().anyMatch(Objects::isNull)) {
             throw new IllegalArgumentException("removedResources must not contain null values");
+        }
 
-        if (!active) return error("the buying phase has not been started or is already over");
+        if (!active) {
+            return error("the buying phase has not been started or is already over");
+        }
 
-        if (!player.equals(currentPlayer()))
+        if (!player.equals(currentPlayer())) {
             return error("it is " + currentPlayer() + "'s turn, not " + player + "'s");
+        }
 
         final PlayerBoardFacade board = boards.get(player);
         if (board == null) {
@@ -101,7 +106,7 @@ public class BuyingResources {
     }
 
     public String getState() {
-        // TODO: implement
+        // TODO later: implement
         return "";
     }
 }

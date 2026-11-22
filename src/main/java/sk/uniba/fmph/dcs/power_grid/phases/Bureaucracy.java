@@ -18,7 +18,7 @@ import java.util.Optional;
 /**
  * Phase in which players use their power plants and receive income.
  */
-public class Bureaucracy {
+public final class Bureaucracy {
     private final Map<PlayerColor, PlayerBoardFacade> boards;
     private final ResourceMarket market;
     private final CheckAndBumpStep checkAndBumpStep;
@@ -27,8 +27,8 @@ public class Bureaucracy {
     private int currentIndex;
     private boolean active;
 
-    public Bureaucracy(Map<PlayerColor, PlayerBoardFacade> boards, ResourceMarket market,
-                       CheckAndBumpStep checkAndBumpStep) {
+    public Bureaucracy(final Map<PlayerColor, PlayerBoardFacade> boards, final ResourceMarket market,
+                       final CheckAndBumpStep checkAndBumpStep) {
         Objects.requireNonNull(boards, "boards must not be null");
         Objects.requireNonNull(market, "market must not be null");
         Objects.requireNonNull(checkAndBumpStep, "step tracker must not be null");
@@ -41,10 +41,11 @@ public class Bureaucracy {
         this.checkAndBumpStep = checkAndBumpStep;
     }
 
-    public void startPhase(List<PlayerColor> playerOrder) {
+    public void startPhase(final List<PlayerColor> playerOrder) {
         Objects.requireNonNull(playerOrder, "playerOrder must not be null");
-        if (playerOrder.stream().anyMatch(Objects::isNull))
+        if (playerOrder.stream().anyMatch(Objects::isNull)) {
             throw new IllegalArgumentException("playerOrder must not contain null values");
+        }
 
         checkAndBumpStep.checkAndBumpToStep2();
 
@@ -54,21 +55,26 @@ public class Bureaucracy {
     }
 
     public Variant<PhaseStatus, RequestError> usePowerPlants(
-            PlayerColor player, List<PowerPlantNumber> ppns, List<Resource> resourcesToBurn) {
+            final PlayerColor player, final List<PowerPlantNumber> ppns, final List<Resource> resourcesToBurn) {
         Objects.requireNonNull(player, "player must not be null");
 
         Objects.requireNonNull(ppns, "ppns must not be null");
-        if (ppns.stream().anyMatch(Objects::isNull))
+        if (ppns.stream().anyMatch(Objects::isNull)) {
             throw new IllegalArgumentException("ppns must not contain null values");
+        }
 
         Objects.requireNonNull(resourcesToBurn, "resourcesToBurn must not be null");
-        if (resourcesToBurn.stream().anyMatch(Objects::isNull))
+        if (resourcesToBurn.stream().anyMatch(Objects::isNull)) {
             throw new IllegalArgumentException("resourcesToBurn must not contain null values");
+        }
 
-        if (!active) return error("the bureaucracy phase has not been started or is already over");
+        if (!active) {
+            return error("the bureaucracy phase has not been started or is already over");
+        }
 
-        if (!player.equals(currentPlayer()))
+        if (!player.equals(currentPlayer())) {
             return error("it is " + currentPlayer() + "'s turn, not " + player + "'s");
+        }
 
         final PlayerBoardFacade board = boards.get(player);
         if (board == null) {
@@ -92,7 +98,7 @@ public class Bureaucracy {
     }
 
     public String getState() {
-        // TODO: implement
+        // TODO later: implement
         return "";
     }
 

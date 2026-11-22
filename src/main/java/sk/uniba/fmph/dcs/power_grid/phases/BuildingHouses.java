@@ -16,7 +16,7 @@ import java.util.Objects;
 /**
  * Phase in which players build houses in towns.
  */
-public class BuildingHouses {
+public final class BuildingHouses {
     private final Map<PlayerColor, PlayerBoardFacade> boards;
     private final Towns towns;
 
@@ -26,7 +26,7 @@ public class BuildingHouses {
     private boolean active;
     private boolean gameEnding;
 
-    public BuildingHouses(Map<PlayerColor, PlayerBoardFacade> boards, Towns towns) {
+    public BuildingHouses(final Map<PlayerColor, PlayerBoardFacade> boards, final Towns towns) {
         Objects.requireNonNull(boards, "boards must not be null");
         Objects.requireNonNull(towns, "towns must not be null");
 
@@ -37,10 +37,11 @@ public class BuildingHouses {
         this.towns = towns;
     }
 
-    public void startPhase(List<PlayerColor> playerOrder) {
+    public void startPhase(final List<PlayerColor> playerOrder) {
         Objects.requireNonNull(playerOrder, "playerOrder must not be null");
-        if (playerOrder.stream().anyMatch(Objects::isNull))
+        if (playerOrder.stream().anyMatch(Objects::isNull)) {
             throw new IllegalArgumentException("playerOrder must not contain null values");
+        }
 
         List<PlayerColor> reversed = new ArrayList<>(playerOrder);
         Collections.reverse(reversed);
@@ -51,11 +52,12 @@ public class BuildingHouses {
         this.active = !this.turnOrder.isEmpty();
     }
 
-    public Variant<PhaseStatus, RequestError> buyHouses(PlayerColor player, List<String> townNames) {
+    public Variant<PhaseStatus, RequestError> buyHouses(final PlayerColor player, final List<String> townNames) {
         Objects.requireNonNull(townNames, "town names must not be null");
         Objects.requireNonNull(player, "player must not be null");
-        if (townNames.stream().anyMatch(Objects::isNull))
+        if (townNames.stream().anyMatch(Objects::isNull)) {
             throw new IllegalArgumentException("town names must not contain null values");
+        }
 
         if (!active) {
             return error("the building phase has not been started or is already over");
@@ -108,12 +110,19 @@ public class BuildingHouses {
     }
 
     private static int thresholdFor(final int playerCount) {
-        if (playerCount < 2 || playerCount > 6)
+        if (playerCount < 2 || playerCount > 6) {
             throw new IllegalArgumentException("Invalid player count: " + playerCount);
+        }
 
-        if (playerCount == 6) return 14;
-        if (playerCount == 5) return 15;
-        if (playerCount == 3 || playerCount == 4) return 17;
+        if (playerCount == 6) {
+            return 14;
+        }
+        if (playerCount == 5) {
+            return 15;
+        }
+        if (playerCount == 3 || playerCount == 4) {
+            return 17;
+        }
         return 18;
     }
 
@@ -122,7 +131,7 @@ public class BuildingHouses {
     }
 
     public String getState() {
-        // TODO: implement
+        // TODO later: implement
         return "";
     }
 }

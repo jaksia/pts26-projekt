@@ -7,8 +7,7 @@ import java.util.List;
  */
 public interface Towns {
 
-    Variant<Integer, RequestError> buyHouses(
-            PlayerColor player, List<String> townNames, int maxMoney);
+    Variant<Integer, RequestError> buyHouses(PlayerColor player, List<String> townNames, int maxMoney);
 
     int getNumberOfHouses(PlayerColor player);
 

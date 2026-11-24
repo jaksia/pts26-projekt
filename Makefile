@@ -6,4 +6,7 @@ lint: FORCE
 
 format: FORCE
 	mvn formatter:format
+
+validate: FORCE
+	mvn formatter:validate
 FORCE: ;

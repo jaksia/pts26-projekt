@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Objects;
 
 public record PowerPlant(PowerPlantNumber number, List<Resource> acceptedResources, int requiredResourceAmount,
-                         int numberOfCities) {
+        int numberOfCities) {
     public PowerPlant {
         if (number == null) {
             throw new IllegalArgumentException("Power plant number may not be null");

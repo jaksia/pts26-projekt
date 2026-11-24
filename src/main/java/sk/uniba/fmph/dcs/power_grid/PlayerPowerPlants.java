@@ -11,18 +11,18 @@ public interface PlayerPowerPlants {
     PowerPlantNumber bestPowerPlant(); /* Should be called largest(?) */
 
     /**
-     * @param pp the power plant to receive
+     * @param pp
+     *            the power plant to receive
+     *
      * @return {@code false} if the player is above the power plant limit
      */
     boolean receivePowerPlant(PowerPlant pp);
 
-    Optional<RequestError> removePowerPlant(
-            PowerPlantNumber ppn, List<Resource> newResources);
+    Optional<RequestError> removePowerPlant(PowerPlantNumber ppn, List<Resource> newResources);
 
     int numberOfConnectableCities(List<Resource> resources);
 
     boolean canStoreResources(List<Resource> resources);
 
-    Variant<Integer, RequestError> usePowerPlant(
-            List<PowerPlantNumber> ppns, List<Resource> resourcesToBurn);
+    Variant<Integer, RequestError> usePowerPlant(List<PowerPlantNumber> ppns, List<Resource> resourcesToBurn);
 }

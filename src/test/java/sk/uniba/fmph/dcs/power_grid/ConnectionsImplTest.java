@@ -15,11 +15,8 @@ public class ConnectionsImplTest {
 
     private static ConnectionsImpl chainWithDetour() {
         // A--B--C is cheaper than the direct A--C edge, and D hangs off C.
-        return new ConnectionsImpl(List.of(
-                new Edge("A", "B", 5),
-                new Edge("B", "C", 3),
-                new Edge("A", "C", 20),
-                new Edge("C", "D", 2)));
+        return new ConnectionsImpl(
+                List.of(new Edge("A", "B", 5), new Edge("B", "C", 3), new Edge("A", "C", 20), new Edge("C", "D", 2)));
     }
 
     @Test
@@ -36,10 +33,8 @@ public class ConnectionsImplTest {
 
     @Test
     public void doesNotReorderCitiesToFindCheaperTotal() {
-        ConnectionsImpl connections = new ConnectionsImpl(List.of(
-                new Edge("A", "X", 10),
-                new Edge("A", "Y", 5),
-                new Edge("X", "Y", 1)));
+        ConnectionsImpl connections = new ConnectionsImpl(
+                List.of(new Edge("A", "X", 10), new Edge("A", "Y", 5), new Edge("X", "Y", 1)));
 
         int xThenY = connections.calculateConnectingCost(List.of("A"), List.of("X", "Y"));
         int yThenX = connections.calculateConnectingCost(List.of("A"), List.of("Y", "X"));
@@ -51,9 +46,7 @@ public class ConnectionsImplTest {
 
     @Test
     public void usesCheapestOfRepeatedAndReversedEdges() {
-        ConnectionsImpl connections = new ConnectionsImpl(List.of(
-                new Edge("A", "B", 7),
-                new Edge("B", "A", 3)));
+        ConnectionsImpl connections = new ConnectionsImpl(List.of(new Edge("A", "B", 7), new Edge("B", "A", 3)));
         assertEquals(3, connections.calculateConnectingCost(List.of("A"), List.of("B")));
     }
 
@@ -88,16 +81,13 @@ public class ConnectionsImplTest {
 
     @Test
     public void rejectsUnreachableCity() {
-        ConnectionsImpl connections = new ConnectionsImpl(List.of(
-                new Edge("A", "B", 1),
-                new Edge("C", "D", 1)));
+        ConnectionsImpl connections = new ConnectionsImpl(List.of(new Edge("A", "B", 1), new Edge("C", "D", 1)));
         assertThrows(IllegalArgumentException.class,
                 () -> connections.calculateConnectingCost(List.of("A"), List.of("C")));
     }
 
     @Test
     public void rejectsNegativeCost() {
-        assertThrows(IllegalArgumentException.class,
-                () -> new ConnectionsImpl(List.of(new Edge("A", "B", -1))));
+        assertThrows(IllegalArgumentException.class, () -> new ConnectionsImpl(List.of(new Edge("A", "B", -1))));
     }
 }

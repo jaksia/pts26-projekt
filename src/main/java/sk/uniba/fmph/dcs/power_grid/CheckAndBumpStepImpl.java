@@ -13,7 +13,7 @@ public final class CheckAndBumpStepImpl implements CheckAndBumpStep {
     private int step = 1;
 
     public CheckAndBumpStepImpl(final Towns towns, final ResourceMarket resourceMarket,
-                                final PowerPlantMarket powerPlantMarket, final List<PlayerColor> players) {
+            final PowerPlantMarket powerPlantMarket, final List<PlayerColor> players) {
         Objects.requireNonNull(towns, "towns must not be null");
         Objects.requireNonNull(resourceMarket, "resource market must not be null");
         Objects.requireNonNull(powerPlantMarket, "power plant market must not be null");

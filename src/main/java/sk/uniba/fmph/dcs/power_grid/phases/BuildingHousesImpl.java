@@ -29,7 +29,8 @@ public final class BuildingHousesImpl implements BuildingHouses {
 
         this.boards = new EnumMap<>(PlayerColor.class);
         for (Map.Entry<PlayerColor, PlayerBoardFacade> entry : boards.entrySet()) {
-            this.boards.put(entry.getKey(), Objects.requireNonNull(entry.getValue(), "boards must not contain null values"));
+            this.boards.put(entry.getKey(),
+                    Objects.requireNonNull(entry.getValue(), "boards must not contain null values"));
         }
         this.towns = towns;
     }
@@ -80,14 +81,12 @@ public final class BuildingHousesImpl implements BuildingHouses {
             final Variant<Integer, RequestError> result = towns.buyHouses(player, townNames, money);
 
             if (result instanceof Variant.Failure<Integer, RequestError> failure) {
-                return error(player + " cannot build in " + townNames
-                        + " (" + failure.error().description() + ")");
+                return error(player + " cannot build in " + townNames + " (" + failure.error().description() + ")");
             }
 
             final int cost = ((Variant.Success<Integer, RequestError>) result).value();
             if (!board.hasEnoughMoney(cost)) {
-                return error(player + " has " + money
-                        + " Elektro but houses in " + townNames + " cost " + cost);
+                return error(player + " has " + money + " Elektro but houses in " + townNames + " cost " + cost);
             }
             board.spendMoney(cost);
 

@@ -28,7 +28,7 @@ public final class BureaucracyImpl implements Bureaucracy {
     private boolean finalRound;
 
     public BureaucracyImpl(final Map<PlayerColor, PlayerBoardFacade> boards, final ResourceMarket market,
-                           final PowerPlantMarket powerPlantMarket, final CheckAndBumpStep checkAndBumpStep) {
+            final PowerPlantMarket powerPlantMarket, final CheckAndBumpStep checkAndBumpStep) {
         Objects.requireNonNull(boards, "boards must not be null");
         Objects.requireNonNull(market, "market must not be null");
         Objects.requireNonNull(powerPlantMarket, "powerPlantMarket must not be null");
@@ -36,7 +36,8 @@ public final class BureaucracyImpl implements Bureaucracy {
 
         this.boards = new EnumMap<>(PlayerColor.class);
         for (Map.Entry<PlayerColor, PlayerBoardFacade> entry : boards.entrySet()) {
-            this.boards.put(entry.getKey(), Objects.requireNonNull(entry.getValue(), "boards must not contain null values"));
+            this.boards.put(entry.getKey(),
+                    Objects.requireNonNull(entry.getValue(), "boards must not contain null values"));
         }
         this.market = market;
         this.powerPlantMarket = powerPlantMarket;
@@ -66,8 +67,8 @@ public final class BureaucracyImpl implements Bureaucracy {
     }
 
     @Override
-    public Variant<PhaseStatus, RequestError> usePowerPlants(
-            final PlayerColor player, final List<PowerPlantNumber> ppns, final List<Resource> resourcesToBurn) {
+    public Variant<PhaseStatus, RequestError> usePowerPlants(final PlayerColor player,
+            final List<PowerPlantNumber> ppns, final List<Resource> resourcesToBurn) {
         Objects.requireNonNull(player, "player must not be null");
         Objects.requireNonNull(ppns, "ppns must not be null");
         if (ppns.stream().anyMatch(Objects::isNull)) {
@@ -96,8 +97,8 @@ public final class BureaucracyImpl implements Bureaucracy {
                 ? board.usePowerPlantsForFinalScoring(player, ppns, resourcesToBurn)
                 : board.usePowerPlants(player, ppns, resourcesToBurn);
         if (useError.isPresent()) {
-            return error(player + " cannot use power plants " + ppns + " with " + resourcesToBurn
-                    + " (" + useError.get().description() + ")");
+            return error(player + " cannot use power plants " + ppns + " with " + resourcesToBurn + " ("
+                    + useError.get().description() + ")");
         }
 
         currentIndex++;

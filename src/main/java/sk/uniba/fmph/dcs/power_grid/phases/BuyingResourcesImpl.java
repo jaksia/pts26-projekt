@@ -29,7 +29,8 @@ public final class BuyingResourcesImpl implements BuyingResources {
 
         this.boards = new EnumMap<>(PlayerColor.class);
         for (Map.Entry<PlayerColor, PlayerBoardFacade> entry : boards.entrySet()) {
-            this.boards.put(entry.getKey(), Objects.requireNonNull(entry.getValue(), "boards must not contain null values"));
+            this.boards.put(entry.getKey(),
+                    Objects.requireNonNull(entry.getValue(), "boards must not contain null values"));
         }
         this.market = market;
     }
@@ -50,7 +51,7 @@ public final class BuyingResourcesImpl implements BuyingResources {
 
     @Override
     public Variant<PhaseStatus, RequestError> buyResources(final PlayerColor player,
-                                                           final List<Resource> removedResources) {
+            final List<Resource> removedResources) {
         Objects.requireNonNull(player, "player must not be null");
         Objects.requireNonNull(removedResources, "removedResources must not be null");
         if (removedResources.stream().anyMatch(Objects::isNull)) {
@@ -73,18 +74,17 @@ public final class BuyingResourcesImpl implements BuyingResources {
         if (!removedResources.isEmpty()) {
             final Integer price = market.getPrice(removedResources);
             if (price == null) {
-                return error(player + " requested " + removedResources
-                        + " but they are not available in the market");
+                return error(player + " requested " + removedResources + " but they are not available in the market");
             }
             if (!board.hasEnoughMoney(price)) {
-                return error(player + " has " + board.outstandingMoney()
-                        + " Elektro but needs " + price + " for " + removedResources);
+                return error(player + " has " + board.outstandingMoney() + " Elektro but needs " + price + " for "
+                        + removedResources);
             }
 
             final Optional<RequestError> storageError = board.buyResources(removedResources);
             if (storageError.isPresent()) {
-                return error(player + " cannot store " + removedResources
-                        + " (" + storageError.get().description() + ")");
+                return error(
+                        player + " cannot store " + removedResources + " (" + storageError.get().description() + ")");
             }
 
             market.takeResources(removedResources);

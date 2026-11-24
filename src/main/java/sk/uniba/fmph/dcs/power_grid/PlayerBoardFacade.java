@@ -37,8 +37,8 @@ public interface PlayerBoardFacade {
     Optional<RequestError> usePowerPlants(PlayerColor player, List<PowerPlantNumber> ppns,
             List<Resource> resourcesToBurn);
 
-    Optional<RequestError> usePowerPlantsForFinalScoring(
-            PlayerColor player, List<PowerPlantNumber> ppns, List<Resource> resourcesToBurn);
+    Optional<RequestError> usePowerPlantsForFinalScoring(PlayerColor player, List<PowerPlantNumber> ppns,
+            List<Resource> resourcesToBurn);
 
     String state();
 }

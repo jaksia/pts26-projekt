@@ -67,6 +67,7 @@ public final class CheckAndBumpStepImpl implements CheckAndBumpStep {
     private void startStep2() {
         towns.startStep2();
         resourceMarket.startStep2();
+        powerPlantMarket.startStep2();
         step = 2;
     }
 

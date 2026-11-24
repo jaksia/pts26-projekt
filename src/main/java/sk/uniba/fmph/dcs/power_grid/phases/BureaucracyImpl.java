@@ -3,6 +3,7 @@ package sk.uniba.fmph.dcs.power_grid.phases;
 import sk.uniba.fmph.dcs.power_grid.CheckAndBumpStep;
 import sk.uniba.fmph.dcs.power_grid.PlayerBoardFacade;
 import sk.uniba.fmph.dcs.power_grid.PlayerColor;
+import sk.uniba.fmph.dcs.power_grid.PowerPlantMarket;
 import sk.uniba.fmph.dcs.power_grid.PowerPlantNumber;
 import sk.uniba.fmph.dcs.power_grid.RequestError;
 import sk.uniba.fmph.dcs.power_grid.Resource;
@@ -18,16 +19,19 @@ import java.util.Optional;
 public final class BureaucracyImpl implements Bureaucracy {
     private final Map<PlayerColor, PlayerBoardFacade> boards;
     private final ResourceMarket market;
+    private final PowerPlantMarket powerPlantMarket;
     private final CheckAndBumpStep checkAndBumpStep;
 
     private List<PlayerColor> turnOrder = List.of();
     private int currentIndex;
     private boolean active;
+    private boolean finalRound;
 
     public BureaucracyImpl(final Map<PlayerColor, PlayerBoardFacade> boards, final ResourceMarket market,
-                           final CheckAndBumpStep checkAndBumpStep) {
+                           final PowerPlantMarket powerPlantMarket, final CheckAndBumpStep checkAndBumpStep) {
         Objects.requireNonNull(boards, "boards must not be null");
         Objects.requireNonNull(market, "market must not be null");
+        Objects.requireNonNull(powerPlantMarket, "powerPlantMarket must not be null");
         Objects.requireNonNull(checkAndBumpStep, "step tracker must not be null");
 
         this.boards = new EnumMap<>(PlayerColor.class);
@@ -35,21 +39,30 @@ public final class BureaucracyImpl implements Bureaucracy {
             this.boards.put(entry.getKey(), Objects.requireNonNull(entry.getValue(), "boards must not contain null values"));
         }
         this.market = market;
+        this.powerPlantMarket = powerPlantMarket;
         this.checkAndBumpStep = checkAndBumpStep;
     }
 
     @Override
     public void startPhase(final List<PlayerColor> playerOrder) {
+        startPhaseInternal(playerOrder, false);
+    }
+
+    @Override
+    public void startFinalPhase(final List<PlayerColor> playerOrder) {
+        startPhaseInternal(playerOrder, true);
+    }
+
+    private void startPhaseInternal(final List<PlayerColor> playerOrder, final boolean isFinalRound) {
         Objects.requireNonNull(playerOrder, "playerOrder must not be null");
         if (playerOrder.stream().anyMatch(Objects::isNull)) {
             throw new IllegalArgumentException("playerOrder must not contain null values");
         }
 
-        checkAndBumpStep.checkAndBumpToStep2();
-
         this.turnOrder = List.copyOf(playerOrder);
         this.currentIndex = 0;
         this.active = !this.turnOrder.isEmpty();
+        this.finalRound = isFinalRound;
     }
 
     @Override
@@ -79,7 +92,9 @@ public final class BureaucracyImpl implements Bureaucracy {
             return error("no board found for player " + player);
         }
 
-        final Optional<RequestError> useError = board.usePowerPlants(player, ppns, resourcesToBurn);
+        final Optional<RequestError> useError = finalRound
+                ? board.usePowerPlantsForFinalScoring(player, ppns, resourcesToBurn)
+                : board.usePowerPlants(player, ppns, resourcesToBurn);
         if (useError.isPresent()) {
             return error(player + " cannot use power plants " + ppns + " with " + resourcesToBurn
                     + " (" + useError.get().description() + ")");
@@ -90,7 +105,10 @@ public final class BureaucracyImpl implements Bureaucracy {
             return Variant.success(PhaseStatus.PHASE_CONTINUES);
         }
 
-        market.refill();
+        if (!finalRound) {
+            market.refill();
+            powerPlantMarket.prepareNextTurn();
+        }
         active = false;
         return Variant.success(PhaseStatus.PHASE_ENDS);
     }

@@ -70,23 +70,23 @@ public final class BuyingResourcesImpl implements BuyingResources {
             return error("no board found for player " + player);
         }
 
-        final Integer price = market.getPrice(removedResources);
-        if (price == null) {
-            return error(player + " requested " + removedResources
-                    + " but they are not available in the market");
-        }
-        if (!board.hasEnoughMoney(price)) {
-            return error(player + " has " + board.outstandingMoney()
-                    + " Elektro but needs " + price + " for " + removedResources);
-        }
-
-        final Optional<RequestError> storageError = board.buyResources(removedResources);
-        if (storageError.isPresent()) {
-            return error(player + " cannot store " + removedResources
-                    + " (" + storageError.get().description() + ")");
-        }
-
         if (!removedResources.isEmpty()) {
+            final Integer price = market.getPrice(removedResources);
+            if (price == null) {
+                return error(player + " requested " + removedResources
+                        + " but they are not available in the market");
+            }
+            if (!board.hasEnoughMoney(price)) {
+                return error(player + " has " + board.outstandingMoney()
+                        + " Elektro but needs " + price + " for " + removedResources);
+            }
+
+            final Optional<RequestError> storageError = board.buyResources(removedResources);
+            if (storageError.isPresent()) {
+                return error(player + " cannot store " + removedResources
+                        + " (" + storageError.get().description() + ")");
+            }
+
             market.takeResources(removedResources);
             board.spendMoney(price);
         }

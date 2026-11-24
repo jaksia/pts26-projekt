@@ -17,8 +17,8 @@ public interface Bureaucracy {
 
     void startFinalPhase(List<PlayerColor> playerOrder);
 
-    Variant<PhaseStatus, RequestError> usePowerPlants(
-            PlayerColor player, List<PowerPlantNumber> ppns, List<Resource> resourcesToBurn);
+    Variant<PhaseStatus, RequestError> usePowerPlants(PlayerColor player, List<PowerPlantNumber> ppns,
+            List<Resource> resourcesToBurn);
 
     String getState();
 }

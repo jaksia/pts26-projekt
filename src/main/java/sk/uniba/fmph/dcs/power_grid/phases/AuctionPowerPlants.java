@@ -15,8 +15,7 @@ public interface AuctionPowerPlants {
 
     void startPhase(List<PlayerColor> playerOrder);
 
-    Variant<PhaseStatus, RequestError> selectPowerPlantToBid(
-            PlayerColor player, PowerPlantNumber ppn, int firstBid);
+    Variant<PhaseStatus, RequestError> selectPowerPlantToBid(PlayerColor player, PowerPlantNumber ppn, int firstBid);
 
     Variant<PhaseStatus, RequestError> doNotWantPowerPlant(PlayerColor player);
 
@@ -24,8 +23,8 @@ public interface AuctionPowerPlants {
 
     Variant<PhaseStatus, RequestError> doNotBidForCurrentPowerPlant(int playerId);
 
-    Variant<PhaseStatus, RequestError> removePowerPlant(
-            PlayerColor player, PowerPlantNumber ppn, List<Resource> resources);
+    Variant<PhaseStatus, RequestError> removePowerPlant(PlayerColor player, PowerPlantNumber ppn,
+            List<Resource> resources);
 
     String getState();
 }

@@ -8,8 +8,7 @@ import java.util.Optional;
  */
 public interface GameController {
 
-    Optional<RequestError> selectPowerPlantToBid(
-            PlayerColor player, PowerPlantNumber ppn, int firstBid);
+    Optional<RequestError> selectPowerPlantToBid(PlayerColor player, PowerPlantNumber ppn, int firstBid);
 
     Optional<RequestError> doNotWantPowerPlant(PlayerColor player);
 
@@ -17,15 +16,14 @@ public interface GameController {
 
     Optional<RequestError> doNotBidForCurrentPowerPlant(PlayerColor player);
 
-    Optional<RequestError> removePowerPlant(
-            PlayerColor player, PowerPlantNumber ppn, List<Resource> resources);
+    Optional<RequestError> removePowerPlant(PlayerColor player, PowerPlantNumber ppn, List<Resource> resources);
 
     Optional<RequestError> buyResources(PlayerColor player, List<Resource> removedResources);
 
     Optional<RequestError> buyHouses(PlayerColor player, List<String> townNames);
 
-    Optional<RequestError> usePowerPlants(
-            PlayerColor player, List<PowerPlantNumber> ppns, List<Resource> resourcesToBurn);
+    Optional<RequestError> usePowerPlants(PlayerColor player, List<PowerPlantNumber> ppns,
+            List<Resource> resourcesToBurn);
 
     String getState();
 }

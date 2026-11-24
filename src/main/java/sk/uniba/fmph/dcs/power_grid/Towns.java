@@ -13,8 +13,7 @@ public interface Towns {
      * - `maxMoney` is the player's currently available money and purchases above it are rejected
      * - the step-dependent per-town house limit and town availability are checked here.
      */
-    Variant<Integer, RequestError> buyHouses(
-            PlayerColor player, List<String> townNames, int maxMoney);
+    Variant<Integer, RequestError> buyHouses(PlayerColor player, List<String> townNames, int maxMoney);
 
     int getNumberOfHouses(PlayerColor player);
 

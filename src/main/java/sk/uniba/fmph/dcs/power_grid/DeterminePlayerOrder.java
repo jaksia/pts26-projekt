@@ -1,7 +1,5 @@
 package sk.uniba.fmph.dcs.power_grid;
 
-import sk.uniba.fmph.dcs.power_grid.PlayerColor;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -59,7 +57,7 @@ public class DeterminePlayerOrder {
     //na zaklade pravidiel vrati poradie hracov
     private Comparator<PlayerColor> orderComparator() {
         return Comparator
-                .comparingInt((PlayerColor p) -> towns.getNumberOfHouses(p)).reversed()
+                .comparingInt(towns::getNumberOfHouses).reversed()
                 .thenComparing(
                         Comparator.comparingInt((PlayerColor p) ->
                                 boards.get(p).bestPowerPlantNumber().number()).reversed());
@@ -73,8 +71,7 @@ public class DeterminePlayerOrder {
                         Comparator.comparingInt((PlayerColor p) ->
                                 boards.get(p).outstandingMoney()).reversed())
                 .thenComparing(
-                        Comparator.comparingInt((PlayerColor p) ->
-                                towns.getNumberOfHouses(p)).reversed());
+                        Comparator.comparingInt(towns::getNumberOfHouses).reversed());
     }
 
 

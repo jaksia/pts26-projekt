@@ -10,7 +10,7 @@ import java.util.Random;
 
 public class DeterminePlayerOrder {
 
-    private List<PlayerColor> players;
+    private final List<PlayerColor> players;
     private final Map<PlayerColor, PlayerBoardFacade> boards;
     private final Towns towns;
     private final Random rng;
@@ -18,17 +18,17 @@ public class DeterminePlayerOrder {
 
 
     //random cez konstruktor nech sa da reprodukovat to iste poradie
-    public DeterminePlayerOrder(List<PlayerColor> players,
-                                Map<PlayerColor, PlayerBoardFacade> boards,
-                                Towns towns) {
+    public DeterminePlayerOrder(final List<PlayerColor> players,
+                                final Map<PlayerColor, PlayerBoardFacade> boards,
+                                final Towns towns) {
         this(players, boards, towns, new Random());
     }
 
 
-    public DeterminePlayerOrder(List<PlayerColor> players,
-                                Map<PlayerColor, PlayerBoardFacade> boards,
-                                Towns towns,
-                                Random rng) {
+    public DeterminePlayerOrder(final List<PlayerColor> players,
+                                final Map<PlayerColor, PlayerBoardFacade> boards,
+                                final Towns towns,
+                                final Random rng) {
         this.players = new ArrayList<>(players);
         this.boards = boards;
         this.towns = towns;
@@ -76,7 +76,7 @@ public class DeterminePlayerOrder {
 
 
     //nemoze zasobit viac domov ako ma postavenych domov
-    private int poweredCities(PlayerColor player) {
+    private int poweredCities(final PlayerColor player) {
         return Math.min(
                 boards.get(player).numberOfConnectableCities(),
                 towns.getNumberOfHouses(player));

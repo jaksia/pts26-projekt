@@ -41,18 +41,20 @@ public final class StoreResourcesImpl implements StoreResources {
                 return false;
             }
         }
-        int coalOnHybrid = Math.max(0, count(resources, Resource.COAL)
-                - dedicatedCapacity.getOrDefault(Resource.COAL, 0));
-        int oilOnHybrid = Math.max(0, count(resources, Resource.OIL)
-                - dedicatedCapacity.getOrDefault(Resource.OIL, 0));
+        int coalOnHybrid = Math.max(0,
+                count(resources, Resource.COAL) - dedicatedCapacity.getOrDefault(Resource.COAL, 0));
+        int oilOnHybrid = Math.max(0, count(resources, Resource.OIL) - dedicatedCapacity.getOrDefault(Resource.OIL, 0));
         return coalOnHybrid + oilOnHybrid <= hybridCapacity;
     }
 
     /**
      * Reads a resource count, treating missing types as zero.
      *
-     * @param resources the counts to read
-     * @param type the resource type
+     * @param resources
+     *            the counts to read
+     * @param type
+     *            the resource type
+     *
      * @return the count of {@code type}
      */
     private static int count(final Map<Resource, Integer> resources, final Resource type) {
@@ -62,7 +64,8 @@ public final class StoreResourcesImpl implements StoreResources {
     /**
      * Rejects null or negative resource counts.
      *
-     * @param resources the counts to check
+     * @param resources
+     *            the counts to check
      */
     private static void validate(final Map<Resource, Integer> resources) {
         if (resources == null) {

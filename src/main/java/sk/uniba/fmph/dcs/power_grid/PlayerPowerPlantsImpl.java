@@ -25,14 +25,17 @@ public final class PlayerPowerPlantsImpl implements PlayerPowerPlants {
     /**
      * Creates an instance using the standard power plant limit.
      *
-     * @param catalog maps power plant numbers to power plants; it is only read and
-     *        must not be modified by the caller
-     * @param storeResources storage capacity rule
-     * @param usePowerPlants power plant usage rule
-     * @param maximumNumberOfUsablePowerPlants maximum city count rule
+     * @param catalog
+     *            maps power plant numbers to power plants; it is only read and must not be modified by the caller
+     * @param storeResources
+     *            storage capacity rule
+     * @param usePowerPlants
+     *            power plant usage rule
+     * @param maximumNumberOfUsablePowerPlants
+     *            maximum city count rule
      */
-    public PlayerPowerPlantsImpl(final Map<PowerPlantNumber, PowerPlant> catalog,
-            final StoreResources storeResources, final UsePowerPlants usePowerPlants,
+    public PlayerPowerPlantsImpl(final Map<PowerPlantNumber, PowerPlant> catalog, final StoreResources storeResources,
+            final UsePowerPlants usePowerPlants,
             final MaximumNumberOfUsablePowerPlants maximumNumberOfUsablePowerPlants) {
         this(catalog, storeResources, usePowerPlants, maximumNumberOfUsablePowerPlants, DEFAULT_MAX_POWER_PLANTS);
     }
@@ -40,15 +43,19 @@ public final class PlayerPowerPlantsImpl implements PlayerPowerPlants {
     /**
      * Creates an instance with a custom power plant limit.
      *
-     * @param catalog maps power plant numbers to power plants; it is only read and
-     *        must not be modified by the caller
-     * @param storeResources storage capacity rule
-     * @param usePowerPlants power plant usage rule
-     * @param maximumNumberOfUsablePowerPlants maximum city count rule
-     * @param maxPowerPlants maximum number of power plants the player may own
+     * @param catalog
+     *            maps power plant numbers to power plants; it is only read and must not be modified by the caller
+     * @param storeResources
+     *            storage capacity rule
+     * @param usePowerPlants
+     *            power plant usage rule
+     * @param maximumNumberOfUsablePowerPlants
+     *            maximum city count rule
+     * @param maxPowerPlants
+     *            maximum number of power plants the player may own
      */
-    public PlayerPowerPlantsImpl(final Map<PowerPlantNumber, PowerPlant> catalog,
-            final StoreResources storeResources, final UsePowerPlants usePowerPlants,
+    public PlayerPowerPlantsImpl(final Map<PowerPlantNumber, PowerPlant> catalog, final StoreResources storeResources,
+            final UsePowerPlants usePowerPlants,
             final MaximumNumberOfUsablePowerPlants maximumNumberOfUsablePowerPlants, final int maxPowerPlants) {
         if (catalog == null || storeResources == null || usePowerPlants == null
                 || maximumNumberOfUsablePowerPlants == null) {
@@ -70,9 +77,7 @@ public final class PlayerPowerPlantsImpl implements PlayerPowerPlants {
             throw new IllegalStateException("Player has no power plants.");
         }
         // Compare the wrapped numbers, not the records themselves.
-        return powerPlants.stream()
-                .max(Comparator.comparingInt(plant -> plant.number().number()))
-                .orElseThrow()
+        return powerPlants.stream().max(Comparator.comparingInt(plant -> plant.number().number())).orElseThrow()
                 .number();
     }
 
@@ -89,8 +94,8 @@ public final class PlayerPowerPlantsImpl implements PlayerPowerPlants {
     }
 
     @Override
-    public Optional<RequestError> removePowerPlant(
-            final PowerPlantNumber ppn, final Map<Resource, Integer> newResources) {
+    public Optional<RequestError> removePowerPlant(final PowerPlantNumber ppn,
+            final Map<Resource, Integer> newResources) {
         if (ppn == null) {
             throw new IllegalArgumentException("Power plant number may not be null");
         }
@@ -119,8 +124,8 @@ public final class PlayerPowerPlantsImpl implements PlayerPowerPlants {
     }
 
     @Override
-    public Variant<Integer, RequestError> usePowerPlant(
-            final List<PowerPlantNumber> ppns, final Map<Resource, Integer> resourcesToBurn) {
+    public Variant<Integer, RequestError> usePowerPlant(final List<PowerPlantNumber> ppns,
+            final Map<Resource, Integer> resourcesToBurn) {
         List<PowerPlant> selected = new ArrayList<>();
         Set<PowerPlantNumber> seen = new HashSet<>();
         for (PowerPlantNumber ppn : ppns) {
@@ -142,7 +147,9 @@ public final class PlayerPowerPlantsImpl implements PlayerPowerPlants {
     /**
      * Finds an owned power plant by its number.
      *
-     * @param ppn the number to look for
+     * @param ppn
+     *            the number to look for
+     *
      * @return the owned plant, or empty if the player does not own it
      */
     private Optional<PowerPlant> findOwned(final PowerPlantNumber ppn) {

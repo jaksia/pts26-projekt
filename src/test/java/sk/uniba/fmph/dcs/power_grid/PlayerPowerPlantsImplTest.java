@@ -23,10 +23,15 @@ public class PlayerPowerPlantsImplTest {
     /**
      * Creates a test power plant.
      *
-     * @param number the plant number
-     * @param accepted the accepted resource types
-     * @param required the fuel needed per turn
-     * @param cities the number of cities the plant can supply
+     * @param number
+     *            the plant number
+     * @param accepted
+     *            the accepted resource types
+     * @param required
+     *            the fuel needed per turn
+     * @param cities
+     *            the number of cities the plant can supply
+     *
      * @return the power plant
      */
     private static PowerPlant plant(int number, List<Resource> accepted, int required, int cities) {
@@ -36,7 +41,9 @@ public class PlayerPowerPlantsImplTest {
     /**
      * Counts the given resource tokens into a map.
      *
-     * @param resources the tokens to count
+     * @param resources
+     *            the tokens to count
+     *
      * @return counts by resource type
      */
     private static Map<Resource, Integer> counts(Resource... resources) {
@@ -132,8 +139,8 @@ public class PlayerPowerPlantsImplTest {
         player.receivePowerPlant(coal);
         player.receivePowerPlant(oil);
 
-        Variant<Integer, RequestError> result = player.usePowerPlant(
-                List.of(OIL_NUMBER, COAL_NUMBER), counts(Resource.OIL, Resource.COAL));
+        Variant<Integer, RequestError> result = player.usePowerPlant(List.of(OIL_NUMBER, COAL_NUMBER),
+                counts(Resource.OIL, Resource.COAL));
         assertTrue(result instanceof Variant.Success);
         assertEquals(Integer.valueOf(5), (Integer) ((Variant.Success<?, ?>) result).value());
         assertEquals(OIL_NUMBER, player.bestPowerPlant());

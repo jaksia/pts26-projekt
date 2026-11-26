@@ -15,9 +15,13 @@ public class StoreResourcesImplTest {
     /**
      * Creates a test power plant supplying one city.
      *
-     * @param number the plant number
-     * @param accepted the accepted resource types
-     * @param required the fuel needed per turn
+     * @param number
+     *            the plant number
+     * @param accepted
+     *            the accepted resource types
+     * @param required
+     *            the fuel needed per turn
+     *
      * @return the power plant
      */
     private static PowerPlant plant(int number, List<Resource> accepted, int required) {
@@ -27,7 +31,9 @@ public class StoreResourcesImplTest {
     /**
      * Counts the given resource tokens into a map.
      *
-     * @param resources the tokens to count
+     * @param resources
+     *            the tokens to count
+     *
      * @return counts by resource type
      */
     private static Map<Resource, Integer> counts(Resource... resources) {
@@ -44,8 +50,8 @@ public class StoreResourcesImplTest {
     @Test
     public void storesTwiceTheRequiredAmountOfAcceptedResource() {
         PowerPlant coal = plant(3, List.of(Resource.COAL), 2);
-        assertTrue(storeResources.canStoreResources(
-                counts(Resource.COAL, Resource.COAL, Resource.COAL, Resource.COAL), List.of(coal)));
+        assertTrue(storeResources.canStoreResources(counts(Resource.COAL, Resource.COAL, Resource.COAL, Resource.COAL),
+                List.of(coal)));
         assertFalse(storeResources.canStoreResources(
                 counts(Resource.COAL, Resource.COAL, Resource.COAL, Resource.COAL, Resource.COAL), List.of(coal)));
         assertFalse(storeResources.canStoreResources(counts(Resource.OIL), List.of(coal)));
@@ -55,11 +61,10 @@ public class StoreResourcesImplTest {
     @Test
     public void hybridPlantSharesCapacityBetweenCoalAndOil() {
         PowerPlant hybrid = plant(7, List.of(Resource.COAL, Resource.OIL), 2);
-        assertTrue(storeResources.canStoreResources(
-                counts(Resource.COAL, Resource.COAL, Resource.OIL, Resource.OIL), List.of(hybrid)));
-        assertFalse(storeResources.canStoreResources(
-                counts(Resource.COAL, Resource.COAL, Resource.COAL, Resource.OIL, Resource.OIL),
+        assertTrue(storeResources.canStoreResources(counts(Resource.COAL, Resource.COAL, Resource.OIL, Resource.OIL),
                 List.of(hybrid)));
+        assertFalse(storeResources.canStoreResources(
+                counts(Resource.COAL, Resource.COAL, Resource.COAL, Resource.OIL, Resource.OIL), List.of(hybrid)));
     }
 
     /** Capacity adds up across plants accepting the same type. */
@@ -71,8 +76,7 @@ public class StoreResourcesImplTest {
                 counts(Resource.COAL, Resource.COAL, Resource.COAL, Resource.COAL, Resource.OIL, Resource.OIL),
                 List.of(coal, oil)));
         assertFalse(storeResources.canStoreResources(
-                counts(Resource.COAL, Resource.COAL, Resource.COAL, Resource.COAL, Resource.COAL),
-                List.of(coal, oil)));
+                counts(Resource.COAL, Resource.COAL, Resource.COAL, Resource.COAL, Resource.COAL), List.of(coal, oil)));
     }
 
     /** Ecological plants have no storage space. */

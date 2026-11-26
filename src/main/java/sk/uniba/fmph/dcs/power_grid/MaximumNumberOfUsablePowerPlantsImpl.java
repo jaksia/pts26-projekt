@@ -23,22 +23,27 @@ public final class MaximumNumberOfUsablePowerPlantsImpl implements MaximumNumber
     /**
      * Explores every subset of the available plants and keeps the best feasible one.
      *
-     * @param powerPlants the plants still to decide on
-     * @param resources counts of each available resource type
-     * @param index index of the next plant to include or skip
-     * @param chosen plants included so far
-     * @param cities cities supplied by the chosen plants so far
+     * @param powerPlants
+     *            the plants still to decide on
+     * @param resources
+     *            counts of each available resource type
+     * @param index
+     *            index of the next plant to include or skip
+     * @param chosen
+     *            plants included so far
+     * @param cities
+     *            cities supplied by the chosen plants so far
+     *
      * @return the largest feasible city count from this search state
      */
-    private static int best(final List<PowerPlant> powerPlants, final Map<Resource, Integer> resources,
-            final int index, final List<PowerPlant> chosen, final int cities) {
+    private static int best(final List<PowerPlant> powerPlants, final Map<Resource, Integer> resources, final int index,
+            final List<PowerPlant> chosen, final int cities) {
         if (index == powerPlants.size()) {
             return canRun(chosen, resources) ? cities : 0;
         }
         PowerPlant plant = powerPlants.get(index);
         chosen.add(plant);
-        int withPlant = best(powerPlants, resources, index + 1, chosen,
-                cities + plant.numberOfCities());
+        int withPlant = best(powerPlants, resources, index + 1, chosen, cities + plant.numberOfCities());
         chosen.remove(chosen.size() - 1);
         int withoutPlant = best(powerPlants, resources, index + 1, chosen, cities);
         return Math.max(withPlant, withoutPlant);
@@ -47,8 +52,11 @@ public final class MaximumNumberOfUsablePowerPlantsImpl implements MaximumNumber
     /**
      * Checks whether a selection can be fueled by at most the available resources.
      *
-     * @param powerPlants the selected plants
-     * @param resources counts of each available resource type
+     * @param powerPlants
+     *            the selected plants
+     * @param resources
+     *            counts of each available resource type
+     *
      * @return {@code true} if every selected plant can run
      */
     private static boolean canRun(final List<PowerPlant> powerPlants, final Map<Resource, Integer> resources) {
@@ -77,8 +85,11 @@ public final class MaximumNumberOfUsablePowerPlantsImpl implements MaximumNumber
     /**
      * Reads a resource count, treating missing types as zero.
      *
-     * @param resources the counts to read
-     * @param type the resource type
+     * @param resources
+     *            the counts to read
+     * @param type
+     *            the resource type
+     *
      * @return the count of {@code type}
      */
     private static int count(final Map<Resource, Integer> resources, final Resource type) {
@@ -88,7 +99,8 @@ public final class MaximumNumberOfUsablePowerPlantsImpl implements MaximumNumber
     /**
      * Rejects null or negative resource counts.
      *
-     * @param resources the counts to check
+     * @param resources
+     *            the counts to check
      */
     private static void validate(final Map<Resource, Integer> resources) {
         if (resources == null) {

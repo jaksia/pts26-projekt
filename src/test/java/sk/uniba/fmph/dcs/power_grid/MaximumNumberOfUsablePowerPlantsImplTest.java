@@ -14,10 +14,15 @@ public class MaximumNumberOfUsablePowerPlantsImplTest {
     /**
      * Creates a test power plant.
      *
-     * @param number the plant number
-     * @param accepted the accepted resource types
-     * @param required the fuel needed per turn
-     * @param cities the number of cities the plant can supply
+     * @param number
+     *            the plant number
+     * @param accepted
+     *            the accepted resource types
+     * @param required
+     *            the fuel needed per turn
+     * @param cities
+     *            the number of cities the plant can supply
+     *
      * @return the power plant
      */
     private static PowerPlant plant(int number, List<Resource> accepted, int required, int cities) {
@@ -27,7 +32,9 @@ public class MaximumNumberOfUsablePowerPlantsImplTest {
     /**
      * Counts the given resource tokens into a map.
      *
-     * @param resources the tokens to count
+     * @param resources
+     *            the tokens to count
+     *
      * @return counts by resource type
      */
     private static Map<Resource, Integer> counts(Resource... resources) {
@@ -45,8 +52,8 @@ public class MaximumNumberOfUsablePowerPlantsImplTest {
     public void usesAllPlantsWhenResourcesAllow() {
         PowerPlant coal = plant(3, List.of(Resource.COAL), 2, 1);
         PowerPlant oil = plant(4, List.of(Resource.OIL), 1, 2);
-        assertEquals(3, maximum.numberOfSuppliableCities(
-                List.of(coal, oil), counts(Resource.COAL, Resource.COAL, Resource.OIL)));
+        assertEquals(3, maximum.numberOfSuppliableCities(List.of(coal, oil),
+                counts(Resource.COAL, Resource.COAL, Resource.OIL)));
     }
 
     /** A plant without fuel is simply skipped. */
@@ -54,8 +61,7 @@ public class MaximumNumberOfUsablePowerPlantsImplTest {
     public void skipsPlantsThatCannotBeFueled() {
         PowerPlant coal = plant(3, List.of(Resource.COAL), 2, 1);
         PowerPlant oil = plant(4, List.of(Resource.OIL), 1, 2);
-        assertEquals(1, maximum.numberOfSuppliableCities(
-                List.of(coal, oil), counts(Resource.COAL, Resource.COAL)));
+        assertEquals(1, maximum.numberOfSuppliableCities(List.of(coal, oil), counts(Resource.COAL, Resource.COAL)));
     }
 
     /** When plants share fuel, the most productive combination wins. */
@@ -63,8 +69,7 @@ public class MaximumNumberOfUsablePowerPlantsImplTest {
     public void choosesTheBestSubsetWhenPlantsShareFuel() {
         PowerPlant small = plant(3, List.of(Resource.COAL), 2, 1);
         PowerPlant hybrid = plant(7, List.of(Resource.COAL, Resource.OIL), 2, 5);
-        assertEquals(5, maximum.numberOfSuppliableCities(
-                List.of(small, hybrid), counts(Resource.COAL, Resource.COAL)));
+        assertEquals(5, maximum.numberOfSuppliableCities(List.of(small, hybrid), counts(Resource.COAL, Resource.COAL)));
     }
 
     /** Ecological plants contribute for free. */
@@ -72,8 +77,7 @@ public class MaximumNumberOfUsablePowerPlantsImplTest {
     public void includesEcologicalPlantsForFree() {
         PowerPlant ecological = plant(50, List.of(), 0, 2);
         PowerPlant coal = plant(3, List.of(Resource.COAL), 1, 1);
-        assertEquals(3, maximum.numberOfSuppliableCities(
-                List.of(ecological, coal), counts(Resource.COAL)));
+        assertEquals(3, maximum.numberOfSuppliableCities(List.of(ecological, coal), counts(Resource.COAL)));
     }
 
     /** Unusable plants yield zero cities. */
@@ -88,7 +92,7 @@ public class MaximumNumberOfUsablePowerPlantsImplTest {
     public void allowsSubsetThatLeavesResourcesUnused() {
         PowerPlant efficient = plant(3, List.of(Resource.COAL), 1, 5);
         PowerPlant greedy = plant(4, List.of(Resource.COAL), 2, 4);
-        assertEquals(5, maximum.numberOfSuppliableCities(
-                List.of(efficient, greedy), counts(Resource.COAL, Resource.COAL)));
+        assertEquals(5,
+                maximum.numberOfSuppliableCities(List.of(efficient, greedy), counts(Resource.COAL, Resource.COAL)));
     }
 }

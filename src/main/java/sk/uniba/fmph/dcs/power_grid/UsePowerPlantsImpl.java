@@ -13,8 +13,8 @@ public final class UsePowerPlantsImpl implements UsePowerPlants {
     private static final int HYBRID_RESOURCE_TYPES = 2;
 
     @Override
-    public Variant<Integer, RequestError> numberOfSuppliableCities(
-            final List<PowerPlant> powerPlants, final Map<Resource, Integer> resources) {
+    public Variant<Integer, RequestError> numberOfSuppliableCities(final List<PowerPlant> powerPlants,
+            final Map<Resource, Integer> resources) {
         validate(resources);
 
         Map<Resource, Integer> remaining = new EnumMap<>(Resource.class);
@@ -32,8 +32,8 @@ public final class UsePowerPlantsImpl implements UsePowerPlants {
             } else if (!accepted.isEmpty()) { // If not ecological---ecological plants need no fuel.
                 Resource type = accepted.get(0);
                 if (count(remaining, type) < needed) {
-                    return Variant.failure(
-                            new RequestError("Not enough " + type + " for power plant " + plant.number()));
+                    return Variant
+                            .failure(new RequestError("Not enough " + type + " for power plant " + plant.number()));
                 }
                 remaining.put(type, count(remaining, type) - needed);
             }
@@ -54,8 +54,11 @@ public final class UsePowerPlantsImpl implements UsePowerPlants {
     /**
      * Reads a resource count, treating missing types as zero.
      *
-     * @param resources the counts to read
-     * @param type the resource type
+     * @param resources
+     *            the counts to read
+     * @param type
+     *            the resource type
+     *
      * @return the count of {@code type}
      */
     private static int count(final Map<Resource, Integer> resources, final Resource type) {
@@ -65,7 +68,9 @@ public final class UsePowerPlantsImpl implements UsePowerPlants {
     /**
      * Sums all resource counts.
      *
-     * @param resources the counts to sum
+     * @param resources
+     *            the counts to sum
+     *
      * @return the total number of resource tokens
      */
     private static int total(final Map<Resource, Integer> resources) {
@@ -79,7 +84,8 @@ public final class UsePowerPlantsImpl implements UsePowerPlants {
     /**
      * Rejects null or negative resource counts.
      *
-     * @param resources the counts to check
+     * @param resources
+     *            the counts to check
      */
     private static void validate(final Map<Resource, Integer> resources) {
         if (resources == null) {

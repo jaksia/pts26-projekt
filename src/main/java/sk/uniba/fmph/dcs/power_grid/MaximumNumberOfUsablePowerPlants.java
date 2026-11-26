@@ -9,11 +9,14 @@ import java.util.Map;
 public interface MaximumNumberOfUsablePowerPlants {
 
     /**
-     * Finds the largest number of cities that any subset of the given power
-     * plants can supply using at most the given resources.
+     * Finds the largest number of cities that any subset of the given power plants can supply using at most the given
+     * resources.
      *
-     * @param powerPlants the available power plants
-     * @param resources counts of each available resource type
+     * @param powerPlants
+     *            the available power plants
+     * @param resources
+     *            counts of each available resource type
+     *
      * @return the maximum number of suppliable cities
      */
     int numberOfSuppliableCities(List<PowerPlant> powerPlants, Map<Resource, Integer> resources);

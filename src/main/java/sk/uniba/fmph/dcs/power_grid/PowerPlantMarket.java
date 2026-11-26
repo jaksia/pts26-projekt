@@ -19,5 +19,7 @@ public interface PowerPlantMarket {
 
     boolean isStep3Start();
 
+    void startStep2();
+
     void startStep3();
 }

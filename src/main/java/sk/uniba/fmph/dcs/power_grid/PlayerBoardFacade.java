@@ -19,22 +19,26 @@ public interface PlayerBoardFacade {
     boolean hasEnoughMoney(int amount);
 
     /**
-     * @param ppn   the number of the power plant to receive
-     * @param price the price paid for the power plant
+     * @param ppn
+     *            the number of the power plant to receive
+     * @param price
+     *            the price paid for the power plant
+     *
      * @return {@code false} if the player is above the power plant limit
      */
     boolean receivePowerPlant(PowerPlantNumber ppn, int price);
 
-    Optional<RequestError> removePowerPlant(
-            PowerPlantNumber ppn, List<Resource> removedResources);
+    Optional<RequestError> removePowerPlant(PowerPlantNumber ppn, List<Resource> removedResources);
 
     Optional<RequestError> buyResources(List<Resource> resources);
 
-    Optional<RequestError> buyPowerPlant(
-            List<PowerPlantNumber> ppns, List<Resource> resourcesToBurn);
+    Optional<RequestError> buyPowerPlant(List<PowerPlantNumber> ppns, List<Resource> resourcesToBurn);
 
-    Optional<RequestError> usePowerPlants(
-            PlayerColor player, List<PowerPlantNumber> ppns, List<Resource> resourcesToBurn);
+    Optional<RequestError> usePowerPlants(PlayerColor player, List<PowerPlantNumber> ppns,
+            List<Resource> resourcesToBurn);
+
+    Optional<RequestError> usePowerPlantsForFinalScoring(PlayerColor player, List<PowerPlantNumber> ppns,
+            List<Resource> resourcesToBurn);
 
     String state();
 }

@@ -60,6 +60,10 @@ public final class BureaucracyImpl implements Bureaucracy {
             throw new IllegalArgumentException("playerOrder must not contain null values");
         }
 
+        if (!isFinalRound) {
+            checkAndBumpStep.checkAndBumpToStep2();
+        }
+
         this.turnOrder = List.copyOf(playerOrder);
         this.currentIndex = 0;
         this.active = !this.turnOrder.isEmpty();

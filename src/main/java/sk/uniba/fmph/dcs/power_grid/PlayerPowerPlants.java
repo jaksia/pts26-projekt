@@ -1,6 +1,7 @@
 package sk.uniba.fmph.dcs.power_grid;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -8,9 +9,16 @@ import java.util.Optional;
  */
 public interface PlayerPowerPlants {
 
+    /**
+     * Returns the player's highest-numbered power plant.
+     *
+     * @return the highest power plant number
+     */
     PowerPlantNumber bestPowerPlant(); /* Should be called largest(?) */
 
     /**
+     * Adds a power plant to the player's collection if the limit allows it.
+     *
      * @param pp
      *            the power plant to receive
      *
@@ -18,11 +26,47 @@ public interface PlayerPowerPlants {
      */
     boolean receivePowerPlant(PowerPlant pp);
 
-    Optional<RequestError> removePowerPlant(PowerPlantNumber ppn, List<Resource> newResources);
+    /**
+     * Removes a power plant after checking that the surviving resources fit into the remaining plants.
+     *
+     * @param ppn
+     *            the power plant to remove
+     * @param newResources
+     *            counts of the resources that survive the trashing
+     *
+     * @return an error if the plant is not owned or the resources do not fit
+     */
+    Optional<RequestError> removePowerPlant(PowerPlantNumber ppn, Map<Resource, Integer> newResources);
 
-    int numberOfConnectableCities(List<Resource> resources);
+    /**
+     * Calculates the largest number of cities the player can supply.
+     *
+     * @param resources
+     *            counts of each available resource type
+     *
+     * @return the maximum number of suppliable cities
+     */
+    int numberOfSuppliableCities(Map<Resource, Integer> resources);
 
-    boolean canStoreResources(List<Resource> resources);
+    /**
+     * Checks whether the given resource counts fit into the player's plants.
+     *
+     * @param resources
+     *            counts of each resource type
+     *
+     * @return {@code true} if every resource can be stored
+     */
+    boolean canStoreResources(Map<Resource, Integer> resources);
 
-    Variant<Integer, RequestError> usePowerPlant(List<PowerPlantNumber> ppns, List<Resource> resourcesToBurn);
+    /**
+     * Calculates the cities supplied by an exact selection of the player's plants and resources.
+     *
+     * @param ppns
+     *            the selected power plant numbers
+     * @param resourcesToBurn
+     *            counts of each resource type to burn
+     *
+     * @return the number of supplied cities, or an error for an invalid selection
+     */
+    Variant<Integer, RequestError> usePowerPlant(List<PowerPlantNumber> ppns, Map<Resource, Integer> resourcesToBurn);
 }

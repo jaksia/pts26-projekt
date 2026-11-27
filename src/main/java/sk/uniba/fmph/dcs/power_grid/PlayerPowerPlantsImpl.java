@@ -15,7 +15,6 @@ public final class PlayerPowerPlantsImpl implements PlayerPowerPlants {
 
     public static final int DEFAULT_MAX_POWER_PLANTS = 3;
 
-    private final Map<PowerPlantNumber, PowerPlant> catalog;
     private final StoreResources storeResources;
     private final UsePowerPlants usePowerPlants;
     private final MaximumNumberOfUsablePowerPlants maximumNumberOfUsablePowerPlants;
@@ -25,8 +24,6 @@ public final class PlayerPowerPlantsImpl implements PlayerPowerPlants {
     /**
      * Creates an instance using the standard power plant limit.
      *
-     * @param catalog
-     *            maps power plant numbers to power plants; it is only read and must not be modified by the caller
      * @param storeResources
      *            storage capacity rule
      * @param usePowerPlants
@@ -34,17 +31,14 @@ public final class PlayerPowerPlantsImpl implements PlayerPowerPlants {
      * @param maximumNumberOfUsablePowerPlants
      *            maximum city count rule
      */
-    public PlayerPowerPlantsImpl(final Map<PowerPlantNumber, PowerPlant> catalog, final StoreResources storeResources,
-            final UsePowerPlants usePowerPlants,
+    public PlayerPowerPlantsImpl(final StoreResources storeResources, final UsePowerPlants usePowerPlants,
             final MaximumNumberOfUsablePowerPlants maximumNumberOfUsablePowerPlants) {
-        this(catalog, storeResources, usePowerPlants, maximumNumberOfUsablePowerPlants, DEFAULT_MAX_POWER_PLANTS);
+        this(storeResources, usePowerPlants, maximumNumberOfUsablePowerPlants, DEFAULT_MAX_POWER_PLANTS);
     }
 
     /**
      * Creates an instance with a custom power plant limit.
      *
-     * @param catalog
-     *            maps power plant numbers to power plants; it is only read and must not be modified by the caller
      * @param storeResources
      *            storage capacity rule
      * @param usePowerPlants
@@ -54,17 +48,14 @@ public final class PlayerPowerPlantsImpl implements PlayerPowerPlants {
      * @param maxPowerPlants
      *            maximum number of power plants the player may own
      */
-    public PlayerPowerPlantsImpl(final Map<PowerPlantNumber, PowerPlant> catalog, final StoreResources storeResources,
-            final UsePowerPlants usePowerPlants,
+    public PlayerPowerPlantsImpl(final StoreResources storeResources, final UsePowerPlants usePowerPlants,
             final MaximumNumberOfUsablePowerPlants maximumNumberOfUsablePowerPlants, final int maxPowerPlants) {
-        if (catalog == null || storeResources == null || usePowerPlants == null
-                || maximumNumberOfUsablePowerPlants == null) {
+        if (storeResources == null || usePowerPlants == null || maximumNumberOfUsablePowerPlants == null) {
             throw new IllegalArgumentException("Dependencies may not be null");
         }
         if (maxPowerPlants < 0) {
             throw new IllegalArgumentException("Invalid power plant limit: " + maxPowerPlants);
         }
-        this.catalog = catalog;
         this.storeResources = storeResources;
         this.usePowerPlants = usePowerPlants;
         this.maximumNumberOfUsablePowerPlants = maximumNumberOfUsablePowerPlants;
@@ -135,8 +126,8 @@ public final class PlayerPowerPlantsImpl implements PlayerPowerPlants {
             if (!seen.add(ppn)) {
                 return Variant.failure(new RequestError("Power plant listed twice: " + ppn));
             }
-            Optional<PowerPlant> plant = Optional.ofNullable(catalog.get(ppn));
-            if (plant.isEmpty() || !powerPlants.contains(plant.get())) {
+            Optional<PowerPlant> plant = findOwned(ppn);
+            if (plant.isEmpty()) {
                 return Variant.failure(new RequestError("Power plant not owned: " + ppn));
             }
             selected.add(plant.get());

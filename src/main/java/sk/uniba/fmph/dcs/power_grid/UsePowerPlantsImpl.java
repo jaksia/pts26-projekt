@@ -20,22 +20,22 @@ public final class UsePowerPlantsImpl implements UsePowerPlants {
         Map<Resource, Integer> remaining = new EnumMap<>(Resource.class);
         remaining.putAll(resources);
         int hybridNeed = 0;
-        int required = 0;
+        int totalRequired = 0;
         int cities = 0;
         for (PowerPlant plant : powerPlants) {
-            int needed = plant.requiredResourceAmount();
-            required += needed;
+            int plantNeeds = plant.requiredResourceAmount();
+            totalRequired += plantNeeds;
             List<Resource> accepted = plant.acceptedResources();
             if (accepted.size() == HYBRID_RESOURCE_TYPES) {
                 // COAL+OIL hybrid: its fuel is taken from the residual coal/oil pool.
-                hybridNeed += needed;
+                hybridNeed += plantNeeds;
             } else if (!accepted.isEmpty()) { // If not ecological---ecological plants need no fuel.
                 Resource type = accepted.get(0);
-                if (count(remaining, type) < needed) {
+                if (count(remaining, type) < plantNeeds) {
                     return Variant
                             .failure(new RequestError("Not enough " + type + " for power plant " + plant.number()));
                 }
-                remaining.put(type, count(remaining, type) - needed);
+                remaining.put(type, count(remaining, type) - plantNeeds);
             }
             cities += plant.numberOfCities();
         }
@@ -44,7 +44,7 @@ public final class UsePowerPlantsImpl implements UsePowerPlants {
         if (count(remaining, Resource.COAL) + count(remaining, Resource.OIL) < hybridNeed) {
             return Variant.failure(new RequestError("Not enough coal/oil for hybrid power plants."));
         }
-        int surplus = total(resources) - required;
+        int surplus = total(resources) - totalRequired;
         if (surplus > 0) {
             return Variant.failure(new RequestError("Surplus resources: " + surplus + " token(s) cannot be burned."));
         }

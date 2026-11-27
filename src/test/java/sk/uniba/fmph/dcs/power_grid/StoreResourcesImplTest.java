@@ -70,13 +70,13 @@ public class StoreResourcesImplTest {
     /** Capacity adds up across plants accepting the same type. */
     @Test
     public void capacityIsSummedOverPlantsAcceptingTheResource() {
-        PowerPlant coal = plant(3, List.of(Resource.COAL), 2);
-        PowerPlant oil = plant(4, List.of(Resource.OIL), 1);
+        PowerPlant coal1 = plant(3, List.of(Resource.COAL), 2);
+        PowerPlant coal2 = plant(4, List.of(Resource.COAL), 1);
         assertTrue(storeResources.canStoreResources(
-                counts(Resource.COAL, Resource.COAL, Resource.COAL, Resource.COAL, Resource.OIL, Resource.OIL),
-                List.of(coal, oil)));
-        assertFalse(storeResources.canStoreResources(
-                counts(Resource.COAL, Resource.COAL, Resource.COAL, Resource.COAL, Resource.COAL), List.of(coal, oil)));
+                counts(Resource.COAL, Resource.COAL, Resource.COAL, Resource.COAL, Resource.COAL, Resource.COAL),
+                List.of(coal1, coal2)));
+        assertFalse(storeResources.canStoreResources(counts(Resource.COAL, Resource.COAL, Resource.COAL, Resource.COAL,
+                Resource.COAL, Resource.COAL, Resource.COAL), List.of(coal1, coal2)));
     }
 
     /** Ecological plants have no storage space. */

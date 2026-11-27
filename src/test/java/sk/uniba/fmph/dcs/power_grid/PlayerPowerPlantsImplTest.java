@@ -67,7 +67,7 @@ public class PlayerPowerPlantsImplTest {
         oil = plant(4, List.of(Resource.OIL), 1, 3);
         unowned = plant(5, List.of(Resource.COAL), 1, 4);
         catalog = Map.of(COAL_NUMBER, coal, OIL_NUMBER, oil, UNOWNED_NUMBER, unowned);
-        player = new PlayerPowerPlantsImpl(catalog, new StoreResourcesImpl(), new UsePowerPlantsImpl(),
+        player = new PlayerPowerPlantsImpl(new StoreResourcesImpl(), new UsePowerPlantsImpl(),
                 new MaximumNumberOfUsablePowerPlantsImpl());
     }
 
@@ -84,8 +84,8 @@ public class PlayerPowerPlantsImplTest {
     /** Reaching the limit leaves the existing plants untouched. */
     @Test
     public void receivePowerPlantRespectsLimitWithoutChangingState() {
-        PlayerPowerPlantsImpl limited = new PlayerPowerPlantsImpl(catalog, new StoreResourcesImpl(),
-                new UsePowerPlantsImpl(), new MaximumNumberOfUsablePowerPlantsImpl(), 2);
+        PlayerPowerPlantsImpl limited = new PlayerPowerPlantsImpl(new StoreResourcesImpl(), new UsePowerPlantsImpl(),
+                new MaximumNumberOfUsablePowerPlantsImpl(), 2);
         assertTrue(limited.receivePowerPlant(coal));
         assertTrue(limited.receivePowerPlant(oil));
         assertFalse(limited.receivePowerPlant(unowned));

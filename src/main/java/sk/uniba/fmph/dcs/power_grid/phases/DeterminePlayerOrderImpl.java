@@ -59,11 +59,12 @@ public final class DeterminePlayerOrderImpl implements DeterminePlayerOrder {
                 Comparator.comparingInt((PlayerColor p) -> boards.get(p).bestPowerPlantNumber().number()).reversed());
     }
 
-    // game result, firstly powered cities, then money, then more points
+    // game result, firstly powered cities, then money, then best power plant number
     private Comparator<PlayerColor> resultComparator() {
         return Comparator.comparingInt(this::poweredCities).reversed()
                 .thenComparing(Comparator.comparingInt((PlayerColor p) -> boards.get(p).outstandingMoney()).reversed())
-                .thenComparing(Comparator.comparingInt(towns::getNumberOfHouses).reversed());
+                .thenComparing(Comparator.comparingInt((PlayerColor p) -> boards.get(p).bestPowerPlantNumber().number())
+                        .reversed());
     }
 
     // cannot supply more houses than built houses

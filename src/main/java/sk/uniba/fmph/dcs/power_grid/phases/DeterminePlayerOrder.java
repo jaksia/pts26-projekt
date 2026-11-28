@@ -13,4 +13,3 @@ public interface DeterminePlayerOrder {
 
     List<PlayerColor> gameResult();
 }
-

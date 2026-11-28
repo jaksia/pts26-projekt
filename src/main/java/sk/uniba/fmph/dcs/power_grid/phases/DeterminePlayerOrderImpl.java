@@ -7,12 +7,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-
 import sk.uniba.fmph.dcs.power_grid.PlayerColor;
 import sk.uniba.fmph.dcs.power_grid.PlayerBoardFacade;
 import sk.uniba.fmph.dcs.power_grid.Towns;
-
-
 
 public final class DeterminePlayerOrderImpl implements DeterminePlayerOrder {
 

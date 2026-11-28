@@ -60,6 +60,8 @@ public final class DeterminePlayerOrderImpl implements DeterminePlayerOrder {
     }
 
     // game result, firstly powered cities, then money, then best power plant number
+    // tertiary comparator is just in case the rules fail, there may be case, where powered cities
+    // and money are the same, in that moment best power plant number determines the true result
     private Comparator<PlayerColor> resultComparator() {
         return Comparator.comparingInt(this::poweredCities).reversed()
                 .thenComparing(Comparator.comparingInt((PlayerColor p) -> boards.get(p).outstandingMoney()).reversed())
